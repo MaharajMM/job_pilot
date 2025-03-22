@@ -1,0 +1,148 @@
+import 'package:auto_route/annotations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:job_pilot/const/resource.dart';
+import 'package:job_pilot/features/authentication/view/auth_form_view.dart';
+import 'package:job_pilot/features/login/view/widget/login_sign_up_btn.dart';
+import 'package:job_pilot/shared/widget/animations/slide_animation_builder.dart';
+import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+@RoutePage()
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SignUpView();
+  }
+}
+
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  final _signUpFormKey = GlobalKey<FormBuilderState>();
+
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _nameFocusNode = FocusNode();
+  final GlobalKey _signUpBlueContainerKey = GlobalKey();
+  bool _hasScrolledToForm = false; // Track if we've already scrolled
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Add listeners to focus nodes
+    _nameFocusNode.addListener(_handleFocusChange);
+  }
+
+  void _handleFocusChange() {
+    if (_nameFocusNode.hasFocus && !_hasScrolledToForm) {
+      _hasScrolledToForm = true;
+      // Get the position of the blue container
+      // You'll need to use a GlobalKey to get its position
+      final RenderBox renderBox =
+          _signUpBlueContainerKey.currentContext?.findRenderObject() as RenderBox;
+      final position = renderBox.localToGlobal(Offset.zero);
+
+      // Animate scrolling to the blue container
+      _scrollController.animateTo(
+        position.dy - 100, // Subtract a small offset to place it at the top with a little margin
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+    // Reset the flag when both fields lose focus
+    if (!_nameFocusNode.hasFocus) {
+      _hasScrolledToForm = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _signUpFormKey.currentState?.dispose();
+    _scrollController.dispose();
+    _nameFocusNode.dispose();
+    _signUpBlueContainerKey.currentState?.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  SlideAnimationBuilder(
+                    delay: Durations.short3,
+                    child: Image.asset(
+                      R.ASSETS_ILLUSTRATIONS_AUTH_ILLUSTRATION_2_PNG,
+                      fit: BoxFit.contain,
+                    ).objectTopCenter().h(350),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 15,
+                    child: LoginSignUpBtn(
+                      isLogin: true,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: SlideAnimationBuilder(
+                  delay: Durations.medium2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Start Your Journey',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          Text('Unlock Your Experience'),
+                        ],
+                      ),
+                      20.heightBox,
+                      Container(
+                        key: _signUpBlueContainerKey,
+                        child: AuthFormView(
+                          authBtn: PrimaryButton(
+                            labelText: 'Sign Up',
+                            onPressed: () {},
+                          ),
+                          formKey: _signUpFormKey,
+                          isSignUp: true,
+                          nameFocusNode: _nameFocusNode,
+                        ),
+                      ),
+                      50.heightBox,
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
