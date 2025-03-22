@@ -76,7 +76,7 @@ class IntroPageBodyArea extends StatelessWidget {
                   child: PrimaryButton(
                     color: AppColors.kwhite,
                     labelText: 'Start your journey as Guest',
-                    onPressed: () => context.navigateTo(HomeRoute()),
+                    onPressed: () => context.navigateTo(EmailOnboardRoute()),
                   ),
                 ),
               ],

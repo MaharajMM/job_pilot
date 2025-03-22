@@ -89,8 +89,8 @@ class CustomTextFormField extends StatelessWidget {
         valueTransformer: valueTransformer,
         enableSuggestions: true,
         enableInteractiveSelection: true,
-        textCapitalization:
-            isTextCapitalization ? TextCapitalization.words : TextCapitalization.sentences,
+        // textCapitalization:
+        //     isTextCapitalization ? TextCapitalization.words : TextCapitalization.sentences,
         minLines: minLine,
         maxLines: maxLine,
         focusNode: focusNode,
@@ -105,13 +105,13 @@ class CustomTextFormField extends StatelessWidget {
           hintText: hintText,
           labelText: (labelText ?? hintText),
           labelStyle: GoogleFonts.poppins(
-            color: AppColors.grey500,
+            color: AppColors.grey700,
             letterSpacing: 0.5,
             fontWeight: FontWeight.w400,
           ),
           hintStyle: GoogleFonts.poppins(
             fontSize: hintTexFontSize ?? fontSize,
-            color: AppColors.kBlack,
+            color: AppColors.green900,
             fontWeight: FontWeight.w400,
           ),
           border: InputBorder.none,

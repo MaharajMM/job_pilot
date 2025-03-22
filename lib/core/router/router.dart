@@ -14,27 +14,30 @@ class AppRouter extends RootStackRouter {
     ),
     AutoRoute(
       page: OnboardingRoute.page,
+      path: '/on',
+      // initial: true,
+    ),
+    AutoRoute(
+      page: IntroLoginRoute.page,
+      // path: '/intro-login',
       path: '/',
       initial: true,
     ),
     AutoRoute(
-      page: IntroLoginRoute.page,
-      path: '/intro-login',
-      // path: '/',
-    ),
-    AutoRoute(
       page: HomeRoute.page,
       path: '/home',
-      // initial: true,
     ),
     AutoRoute(
       page: LoginRoute.page,
       path: '/login',
-      // initial: true,
     ),
     AutoRoute(
       page: SignUpRoute.page,
       path: '/sign-up',
+    ),
+    AutoRoute(
+      page: EmailOnboardRoute.page,
+      path: '/email-onboard',
       // initial: true,
     ),
     AutoRoute(
