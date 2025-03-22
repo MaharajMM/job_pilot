@@ -37,7 +37,7 @@ class IntroLoginBackground extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ClipRRect(
             child: Image.asset(
-              R.ASSETS_IMAGES_BACKGORUND_5_JPEG,
+              R.ASSETS_IMAGES_BACKGORUND_1_JPEG,
               fit: BoxFit.cover,
             ),
           ),

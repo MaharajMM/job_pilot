@@ -115,17 +115,18 @@ class _AuthFormState extends State<AuthForm> {
             ]),
           ),
         12.heightBox,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-              onTap: () => context.navigateTo(
-                ForgotPasswordBaseRoute(),
+        if (!widget.isSignUp)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: () => context.navigateTo(
+                  ForgotPasswordBaseRoute(),
+                ),
+                child: Text('Forgot Password?'),
               ),
-              child: Text('Forgot Password?'),
-            ),
-          ],
-        ),
+            ],
+          ),
         12.heightBox,
         widget.authBtn,
         20.heightBox,
