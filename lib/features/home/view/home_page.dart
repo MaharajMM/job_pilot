@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:job_pilot/core/router/router.gr.dart';
+import 'package:job_pilot/const/colors/app_colors.dart';
+import 'package:job_pilot/features/home/widgets/analytics_tab.dart';
+import 'package:job_pilot/features/home/widgets/history_tab.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -19,12 +21,41 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.navigateTo(EmailSenderRoute()),
+      appBar: AppBar(
+        backgroundColor: AppColors.kPrimaryColor,
+        title: const Text('Application Dashboard'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Analytics'),
+            Tab(text: 'History'),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          AnalyticsTab(),
+          HistoryTab(),
+        ],
       ),
     );
   }

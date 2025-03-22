@@ -1,16 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
 import 'package:job_pilot/core/router/router_pod.dart';
-import 'package:job_pilot/data/models/email_template_model.dart';
-import 'package:job_pilot/data/models/user_model.dart';
-import 'package:job_pilot/data/service/email_template/email_template_db_service_pod.dart';
-import 'package:job_pilot/data/service/user_profile/user_profile_db_service_pod.dart';
 import 'package:job_pilot/features/email_onboard/const/email_onboard_keys.dart';
 import 'package:job_pilot/shared/widget/animations/slide_animation_builder.dart';
 import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
@@ -61,42 +56,45 @@ class _EmailOnboardViewState extends ConsumerState<EmailOnboardView> {
   }
 
   Future<void> _saveAndContinue(BuildContext mContext) async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
-
-    try {
-      // Save user profile
-      if (_formKey.currentState?.validate() ?? false) {
-        HapticFeedback.lightImpact();
-        Feedback.forTap(context);
-        final fields = _formKey.currentState!.fields;
-        final email = fields[EmailOnboardKeys.email]!.value as String;
-        final name = fields[EmailOnboardKeys.name]!.value as String;
-        final subject = fields[EmailOnboardKeys.subject]!.value as String;
-        final emailBody = fields[EmailOnboardKeys.emailBody]!.value as String;
-
-        final userProfile = UserProfile(
-          primaryEmail: email.trim(),
-          name: name.trim(),
-        );
-        await ref.read(userProfileDbProvider).saveUserProfile(userProfile: userProfile);
-
-        // Save email template
-        final emailTemplate = EmailTemplateModel(
-          subject: subject.trim(),
-          body: emailBody.trim(),
-          attachmentPath: _attachmentPath,
-        );
-        await ref.read(emailTemplateDbProvider).saveEmailTemplate(emailTemplate: emailTemplate);
-
-        if (mContext.mounted) {
-          ref.read(autorouterProvider).replace(HomeRoute());
-        }
-      }
-    } finally {
-      setState(() => _isLoading = false);
+    if (mContext.mounted) {
+      ref.read(autorouterProvider).replace(HomeRoute());
     }
+    // if (!_formKey.currentState!.validate()) return;
+
+    // setState(() => _isLoading = true);
+
+    // try {
+    //   // Save user profile
+    //   if (_formKey.currentState?.validate() ?? false) {
+    //     HapticFeedback.lightImpact();
+    //     Feedback.forTap(context);
+    //     final fields = _formKey.currentState!.fields;
+    //     final email = fields[EmailOnboardKeys.email]!.value as String;
+    //     final name = fields[EmailOnboardKeys.name]!.value as String;
+    //     final subject = fields[EmailOnboardKeys.subject]!.value as String;
+    //     final emailBody = fields[EmailOnboardKeys.emailBody]!.value as String;
+
+    //     final userProfile = UserProfile(
+    //       primaryEmail: email.trim(),
+    //       name: name.trim(),
+    //     );
+    //     await ref.read(userProfileDbProvider).saveUserProfile(userProfile: userProfile);
+
+    //     // Save email template
+    //     final emailTemplate = EmailTemplateModel(
+    //       subject: subject.trim(),
+    //       body: emailBody.trim(),
+    //       attachmentPath: _attachmentPath,
+    //     );
+    //     await ref.read(emailTemplateDbProvider).saveEmailTemplate(emailTemplate: emailTemplate);
+
+    //     if (mContext.mounted) {
+    //       ref.read(autorouterProvider).replace(HomeRoute());
+    //     }
+    //   }
+    // } finally {
+    //   setState(() => _isLoading = false);
+    // }
   }
 
   @override

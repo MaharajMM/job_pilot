@@ -7,10 +7,27 @@ class AppRouter extends RootStackRouter {
   @override
   late final List<AutoRoute> routes = [
     AutoRoute(
-      page: EmailSenderRoute.page,
-      path: '/email_sender',
-      // path: '/',
-      // initial: true,
+      page: NavBarRoute.page,
+      path: '/',
+      initial: true,
+      children: [
+        RedirectRoute(
+          path: '',
+          redirectTo: 'home',
+        ),
+        AdaptiveRoute(
+          page: HomeRoute.page,
+          path: 'home',
+        ),
+        AdaptiveRoute(
+          page: EmailSenderRoute.page,
+          path: 'email_send',
+        ),
+        AdaptiveRoute(
+          page: ProfileRoute.page,
+          path: 'profile',
+        ),
+      ],
     ),
     AutoRoute(
       page: OnboardingRoute.page,
@@ -19,13 +36,8 @@ class AppRouter extends RootStackRouter {
     ),
     AutoRoute(
       page: IntroLoginRoute.page,
-      // path: '/intro-login',
-      path: '/',
-      initial: true,
-    ),
-    AutoRoute(
-      page: HomeRoute.page,
-      path: '/home',
+      path: '/intro-login',
+      // path: '/',
     ),
     AutoRoute(
       page: LoginRoute.page,
