@@ -9,9 +9,9 @@ class Themes {
   static ThemeData get theme => FlexThemeData.light(
         colors: FlexSchemeColor.from(primary: AppColors.kPrimaryColor),
         scaffoldBackground: AppColors.kwhite,
-        // appBarBackground: AppColors.kSecondaryBgColor,
+        appBarBackground: AppColors.kSecondaryBgColor,
         applyElevationOverlayColor: true,
-        // appBarStyle: FlexAppBarStyle.background,
+        appBarStyle: FlexAppBarStyle.background,
         scheme: FlexScheme.brandBlue,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 20,

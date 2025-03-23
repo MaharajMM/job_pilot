@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_pilot/data/service/email_template/email_template_db_service_pod.dart';
-import 'package:job_pilot/features/home/controller/analytics_service.dart';
+import 'package:job_pilot/features/analytics/controller/analytics_service.dart';
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
   return AnalyticsService();

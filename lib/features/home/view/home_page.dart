@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:job_pilot/const/borders/app_borders.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
-import 'package:job_pilot/features/home/widgets/analytics_tab.dart';
+import 'package:job_pilot/features/analytics/view/analytics_tab.dart';
 import 'package:job_pilot/features/home/widgets/history_tab.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -23,6 +26,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final String userName = "Raj";
 
   @override
   void initState() {
@@ -39,22 +43,156 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.kPrimaryColor,
-        title: const Text('Application Dashboard'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'Analytics'),
-            Tab(text: 'History'),
+      backgroundColor: Colors.grey[100],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hi, $userName',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Text(
+                        'Good morning',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w400,
+                            ),
+                      ),
+                    ],
+                  ),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppColors.kPrimaryColor,
+                    child: Icon(
+                      Icons.person_outline_sharp,
+                      size: 30,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            10.heightBox,
+            TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                color: AppColors.kPrimaryColor,
+                borderRadius: AppBorder.kHalfMiddleCurve,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              splashFactory: NoSplash.splashFactory,
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              tabAlignment: TabAlignment.start,
+              isScrollable: true,
+              labelPadding: EdgeInsets.only(right: 20),
+              dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.label,
+              unselectedLabelColor: AppColors.grey800,
+              labelStyle: GoogleFonts.poppins(
+                color: AppColors.kBlack,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: [
+                Tab(text: 'Analytics').w(100),
+                Tab(text: 'History').w(100),
+              ],
+            ),
+            16.heightBox,
+            Flexible(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  AnalyticsTab(),
+                  HistoryTab(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          AnalyticsTab(),
-          HistoryTab(),
+    );
+  }
+
+  Widget _buildCompaniesSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.business_outlined,
+                color: Colors.indigo,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'Companies Applied To',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 40),
+          Center(
+            child: Column(
+              children: [
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 48,
+                  color: Colors.grey[400],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No applications sent yet',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  child: const Text(
+                    'Add Your First Application',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

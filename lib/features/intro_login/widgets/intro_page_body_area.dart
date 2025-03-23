@@ -26,11 +26,14 @@ class IntroPageBodyArea extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    R.ASSETS_ILLUSTRATIONS_PILOT_PNG,
-                    height: 350,
-                    width: 350,
-                  ).pOnly(right: 30),
+                  SlideAnimationBuilder(
+                    delay: const Duration(milliseconds: 250),
+                    child: Image.asset(
+                      R.ASSETS_ILLUSTRATIONS_PILOT_PNG,
+                      height: 350,
+                      width: 350,
+                    ).pOnly(right: 30),
+                  ),
                   SlideAnimationBuilder(
                     delay: const Duration(milliseconds: 250),
                     child: Text(
@@ -76,7 +79,7 @@ class IntroPageBodyArea extends StatelessWidget {
                   child: PrimaryButton(
                     color: AppColors.kwhite,
                     labelText: 'Start your journey as Guest',
-                    onPressed: () => context.navigateTo(EmailOnboardRoute()),
+                    onPressed: () => context.navigateTo(NavBarRoute()),
                   ),
                 ),
               ],
