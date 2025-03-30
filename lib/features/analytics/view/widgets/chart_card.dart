@@ -137,7 +137,7 @@ class ChartCard extends StatelessWidget {
                           horizontalInterval: interval,
                           getDrawingHorizontalLine: (value) {
                             return FlLine(
-                              color: AppColors.grey800.withOpacity(0.2),
+                              color: AppColors.grey800.withValues(alpha: 0.2),
                               strokeWidth: 1,
                               dashArray: [5, 5],
                             );

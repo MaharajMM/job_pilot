@@ -66,12 +66,9 @@ class _DefaultNoInternetState extends ConsumerState<DefaultNoInternetWidget> {
   void internetListener(InternetStatus status) {
     switch (status) {
       case InternetStatus.connected:
-        //  talker.debug('Data Reconnected.');
         if (lastResult == InternetStatus.disconnected) {
           ref.invalidate(dioProvider);
-        } else {
-          //talker.debug('First time');
-        }
+        } else {}
         break;
       case InternetStatus.disconnected:
     }

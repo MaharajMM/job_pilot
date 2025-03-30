@@ -53,7 +53,6 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void dispose() {
     stopwatch.stop();
-    talker.info("Page disposed after takes ${stopwatch.elapsedMilliseconds}");
     super.dispose();
   }
 
@@ -66,7 +65,6 @@ class _SplashViewState extends ConsumerState<SplashView> {
           futureInitializerPod,
           (previous, next) {
             if (next is AsyncData && next.valueOrNull != null) {
-              talker.info("Initialization takes ${stopwatch.elapsedMilliseconds}");
               widget.onInitialized(next.requireValue);
             }
           },

@@ -37,7 +37,7 @@ class NavBarPage extends StatelessWidget {
               onDestinationSelected: (index) {
                 if (index == 1) {
                   // Navigate to login before accessing Bulk Email or Profile
-                  context.navigateTo(EmailSenderRoute());
+                  context.navigateTo(BulkEmailRoute());
                 } else {
                   tabsRouter.setActiveIndex(index);
                 }

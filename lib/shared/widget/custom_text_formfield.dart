@@ -36,6 +36,7 @@ class CustomTextFormField extends StatelessWidget {
     this.contentPadding = 12,
     this.valueTransformer,
     this.inputFormatters,
+    this.isAlignWithHint = false,
   });
 
   final Widget? prefixIcon;
@@ -67,6 +68,7 @@ class CustomTextFormField extends StatelessWidget {
   final double? contentPadding;
   final Function(String?)? valueTransformer;
   final List<TextInputFormatter>? inputFormatters;
+  final bool isAlignWithHint;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,8 @@ class CustomTextFormField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           hintText: hintText,
-          labelText: (labelText ?? hintText),
+          labelText: labelText,
+          alignLabelWithHint: isAlignWithHint,
           labelStyle: GoogleFonts.poppins(
             color: AppColors.grey700,
             letterSpacing: 0.5,

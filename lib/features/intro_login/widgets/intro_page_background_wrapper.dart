@@ -52,7 +52,7 @@ class IntroLoginBackground extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black12.withOpacity(0.1),
+                  Colors.black12.withValues(alpha: 0.1),
                   Colors.black12,
                 ],
               ),

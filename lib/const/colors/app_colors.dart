@@ -27,13 +27,13 @@ class AppColors {
   static const Color kSuccessSecondaryColor = Color(0xFFCCFF00);
 
   // Green color variants
-  static const Color green100 = Color(0xFFDEF2D7);
-  static const Color green200 = Color(0xFFCAECC9);
-  static const Color green300 = Color(0xFFB9E6BD);
-  static const Color green400 = Color(0xFF9DDCA7);
-  static const Color green500 = Color(0xFF81D28D);
-  static const Color green600 = Color(0xFF71CC7C);
-  static const Color green700 = Color(0xFF5DC56E);
-  static const Color green800 = Color(0xFF42B857);
-  static const Color green900 = Color(0xFF3FA947);
+  static const Color green100 = Color(0xFFE6FCE6);
+  static const Color green200 = Color(0xFFB8F7B7);
+  static const Color green300 = Color(0xFF8BF38A);
+  static const Color green400 = Color(0xFF5EEE5D);
+  static const Color green500 = Color(0xFF33ED30);
+  static const Color green600 = Color(0xFF2DC72A);
+  static const Color green700 = Color(0xFF259F22);
+  static const Color green800 = Color(0xFF1D791A);
+  static const Color green900 = Color(0xFF155213);
 }

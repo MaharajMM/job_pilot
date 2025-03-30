@@ -24,11 +24,11 @@ class _AnalyticsTabState extends ConsumerState<AnalyticsTab> {
         children: [
           // Stats cards
           StatsCard(),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
 
           // Weekly email chart
           ChartCard(chartData: chartData),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
 
           // Companies applied to
           CompaniesCard(),

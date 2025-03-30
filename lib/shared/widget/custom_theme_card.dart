@@ -22,20 +22,20 @@ class CustomThemeCard extends StatelessWidget {
         borderRadius: AppBorder.kFullMiddleCurve,
         gradient: LinearGradient(
           colors: [
-            AppColors.kPrimaryColor.withOpacity(0.95),
-            AppColors.kPrimaryColor.withOpacity(1.0),
+            AppColors.kPrimaryColor.withValues(alpha: 0.95),
+            AppColors.kPrimaryColor.withValues(alpha: 1.0),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.kBlack.withOpacity(0.3), // Darker shadow for depth
+            color: AppColors.kBlack.withValues(alpha: 0.3), // Darker shadow for depth
             blurRadius: 30, // Increased blur for smooth effect
             offset: const Offset(10, 20), // Bigger offset for elevation
           ),
           BoxShadow(
-            color: AppColors.kBlack.withOpacity(0.15), // Lighter shadow for realism
+            color: AppColors.kBlack.withValues(alpha: 0.15), // Lighter shadow for realism
             blurRadius: 15,
             offset: const Offset(-5, -5), // Soft top-left shadow for floating feel
           ),

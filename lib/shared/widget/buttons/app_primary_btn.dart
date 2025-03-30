@@ -14,12 +14,11 @@ class PrimaryButton extends StatelessWidget {
     this.color = AppColors.kPrimaryColor,
     this.freeSize = false,
     this.fontSize,
-    this.isCTA = false,
     this.icon = const Icon(Icons.download_rounded),
     this.isIcon = false,
-    this.isButtonActive,
     this.borderColor,
     this.fontColor = AppColors.kBlack,
+    this.padding,
   });
   final BorderRadiusGeometry? borderRadius;
   final String labelText;
@@ -27,13 +26,12 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final Color? color;
   final bool freeSize;
-  final bool isCTA;
   final Widget? icon;
   final bool isIcon;
   final double? fontSize;
-  final bool? isButtonActive;
   final Color? borderColor;
   final Color? fontColor;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +44,7 @@ class PrimaryButton extends StatelessWidget {
                 borderRadius: borderRadius ?? AppBorder.kHalfMiddleCurve,
                 side: BorderSide(color: borderColor ?? Colors.transparent),
               ),
+              padding: padding,
               backgroundColor: color,
               minimumSize: freeSize ? const Size(0, 0) : Size(double.infinity, 50),
             ),
@@ -66,6 +65,7 @@ class PrimaryButton extends StatelessWidget {
                 borderRadius: borderRadius ?? AppBorder.kHalfMiddleCurve,
               ),
               backgroundColor: color,
+              padding: padding,
               minimumSize: freeSize ? const Size(0, 0) : Size(double.infinity, 50),
             ),
             child: <Widget>[

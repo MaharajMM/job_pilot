@@ -76,5 +76,10 @@ class AppRouter extends RootStackRouter {
         ),
       ],
     ),
+    AutoRoute(
+      page: BulkEmailRoute.page,
+      path: '/bulk-email',
+      // initial: true,
+    ),
   ];
 }

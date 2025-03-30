@@ -71,7 +71,7 @@ class CompaniesCard extends ConsumerWidget {
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: CircleAvatar(
-                          backgroundColor: AppColors.kPrimaryColor.withOpacity(0.2),
+                          backgroundColor: AppColors.kPrimaryColor.withValues(alpha: 0.2),
                           child: Text(
                             company.key.substring(0, 1).toUpperCase(),
                             style: TextStyle(

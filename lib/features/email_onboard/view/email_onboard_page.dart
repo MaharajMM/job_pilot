@@ -261,7 +261,7 @@ class _EmailOnboardViewState extends ConsumerState<EmailOnboardView> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: AppColors.kPrimaryColor.withOpacity(0.3),
+        color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -286,7 +286,7 @@ class _EmailOnboardViewState extends ConsumerState<EmailOnboardView> {
       // elevation: 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.kPrimaryColor.withOpacity(0.3),
+        color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -319,7 +319,7 @@ class _EmailOnboardViewState extends ConsumerState<EmailOnboardView> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: AppColors.kPrimaryBgColor.withOpacity(0.3),
+                  color: AppColors.kPrimaryBgColor.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
