@@ -3,9 +3,11 @@ import 'package:job_pilot/const/colors/app_colors.dart';
 
 class SectionTitleCard extends StatelessWidget {
   final String title;
+  final IconData? icon;
   const SectionTitleCard({
     super.key,
     required this.title,
+    this.icon,
   });
 
   @override
@@ -19,11 +21,12 @@ class SectionTitleCard extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            title == 'Recipients'
-                ? Icons.people
-                : title == 'Email Content'
-                    ? Icons.email
-                    : Icons.attach_file,
+            icon ??
+                (title == 'Recipients'
+                    ? Icons.people
+                    : title == 'Email Content'
+                        ? Icons.email
+                        : Icons.attach_file),
             color: AppColors.green800,
           ),
           const SizedBox(width: 8),

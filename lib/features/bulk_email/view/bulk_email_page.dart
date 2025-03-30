@@ -9,6 +9,7 @@ import 'package:job_pilot/features/bulk_email/const/bulk_email_keys.dart';
 import 'package:job_pilot/features/bulk_email/view/widgets/section_title_card.dart';
 import 'package:job_pilot/features/email_preview/view/email_preview_sheet.dart';
 import 'package:job_pilot/shared/utility/utilities.dart';
+import 'package:job_pilot/shared/widget/attachment_selector_widget.dart';
 import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:job_pilot/shared/widget/custom_card.dart';
 import 'package:job_pilot/shared/widget/custom_text_formfield.dart';
@@ -33,9 +34,7 @@ class BulkEmailView extends ConsumerStatefulWidget {
 class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
   final _bulkEmailFormKey = GlobalKey<FormBuilderState>();
 
-  String? _attachmentPath;
   String? _attachmentName;
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -47,21 +46,6 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
   void dispose() {
     _bulkEmailFormKey.currentState?.dispose();
     super.dispose();
-  }
-
-  Future<void> _selectAttachment() async {
-    setState(() => _isLoading = true);
-    try {
-      // final path = await FileUploadHelper.uploadFile();
-      // if (path != null) {
-      //   setState(() {
-      //     _attachmentPath = path;
-      //     _attachmentName = path.split('/').last;
-      //   });
-      // }
-    } finally {
-      setState(() => _isLoading = false);
-    }
   }
 
   List<String> _parseRecipients(String recipientEmail) {
@@ -130,76 +114,74 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
       appBar: AppBar(
         title: const Text('Send Bulk Email'),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Consumer(
-              builder: (context, ref, child) {
-                final template = ref.watch(emailTemplateDbProvider).getEmailTemplate();
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: FormBuilder(
-                    key: _bulkEmailFormKey,
-                    initialValue: template != null
-                        ? {
-                            BulkEmailKeys.subject: template.subject,
-                            BulkEmailKeys.emailBody: template.body,
-                            BulkEmailKeys.attachment: template.attachmentPath,
-                          }
-                        : {},
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SectionTitleCard(title: 'Recipients'),
-                        const SizedBox(height: 12),
-                        _buildRecipientsField(),
-                        const SizedBox(height: 24),
-                        SectionTitleCard(title: 'Email Content'),
-                        const SizedBox(height: 12),
-                        CustomTextFormField(
-                          name: BulkEmailKeys.subject,
-                          labelText: 'Subject',
-                          prefixIcon: const Icon(Icons.subject),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a subject';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        CustomTextFormField(
-                          name: BulkEmailKeys.emailBody,
-                          labelText: 'Email Body',
-                          isAlignWithHint: true,
-                          maxLine: 10,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter email content';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        SectionTitleCard(title: 'Attachment'),
-                        const SizedBox(height: 12),
-                        _buildAttachmentSelector(),
-                        const SizedBox(height: 24),
-                        PrimaryButton(
-                          isIcon: true,
-                          labelText: 'Preview & Send',
-                          onPressed: _showPreviewBottomSheet,
-                          icon: const Icon(
-                            Icons.visibility,
-                            color: AppColors.kBlack,
-                          ),
-                        ),
-                        const SizedBox(height: 50),
-                      ],
+      body: Consumer(
+        builder: (context, ref, child) {
+          final template = ref.watch(emailTemplateDbProvider).getEmailTemplate();
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: FormBuilder(
+              key: _bulkEmailFormKey,
+              initialValue: template != null
+                  ? {
+                      BulkEmailKeys.subject: template.subject,
+                      BulkEmailKeys.emailBody: template.body,
+                      BulkEmailKeys.attachment: template.attachmentPath,
+                    }
+                  : {},
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SectionTitleCard(title: 'Recipients'),
+                  const SizedBox(height: 12),
+                  _buildRecipientsField(),
+                  const SizedBox(height: 24),
+                  SectionTitleCard(title: 'Email Content'),
+                  const SizedBox(height: 12),
+                  CustomTextFormField(
+                    name: BulkEmailKeys.subject,
+                    labelText: 'Subject',
+                    prefixIcon: const Icon(Icons.subject),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a subject';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomTextFormField(
+                    name: BulkEmailKeys.emailBody,
+                    labelText: 'Email Body',
+                    isAlignWithHint: true,
+                    maxLine: 10,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter email content';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  SectionTitleCard(title: 'Attachment'),
+                  const SizedBox(height: 12),
+                  AttachmentSelectorWidget(),
+                  const SizedBox(height: 24),
+                  PrimaryButton(
+                    isIcon: true,
+                    labelText: 'Preview & Send',
+                    onPressed: _showPreviewBottomSheet,
+                    icon: const Icon(
+                      Icons.visibility,
+                      color: AppColors.kBlack,
                     ),
                   ),
-                );
-              },
+                  const SizedBox(height: 50),
+                ],
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 
@@ -224,65 +206,6 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
               return null;
             },
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAttachmentSelector() {
-    return CustomCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (_attachmentPath == null) ...[
-            Text(
-              'Attach your resume or other document',
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: PrimaryButton(
-                isIcon: true,
-                icon: const Icon(Icons.upload_file),
-                labelText: 'Select File',
-                freeSize: true,
-                onPressed: _selectAttachment,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
-              ),
-            ),
-          ] else ...[
-            Row(
-              children: [
-                const Icon(Icons.insert_drive_file),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(_attachmentName ?? 'Attached file'),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    setState(() {
-                      _attachmentPath = null;
-                      _attachmentName = null;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: PrimaryButton(
-                isIcon: true,
-                icon: const Icon(Icons.upload_file),
-                labelText: 'Change File',
-                freeSize: true,
-                onPressed: _selectAttachment,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
-              ),
-            ),
-          ],
         ],
       ),
     );

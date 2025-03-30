@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:job_pilot/bootstrap.dart';
 import 'package:job_pilot/features/splash/controller/future_initializer.dart';
 import 'package:job_pilot/shared/riverpod_ext/asynvalue_easy_when.dart';
 

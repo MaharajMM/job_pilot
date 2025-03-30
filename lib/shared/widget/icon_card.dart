@@ -13,7 +13,7 @@ class IconCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: AppColors.kPrimaryColor.withValues(alpha: 0.4),
+        color: AppColors.kPrimaryColor.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(
