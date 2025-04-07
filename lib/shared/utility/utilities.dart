@@ -29,7 +29,7 @@ class Utilities {
     );
   }
 
-  static void flushBarSuccessMessage(String message, BuildContext context) {
+  static void flushBarSuccessMessage({required String message, required BuildContext context}) {
     showFlushbar(
       context: context,
       flushbar: Flushbar(

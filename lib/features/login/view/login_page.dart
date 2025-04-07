@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
+import 'package:job_pilot/features/authentication/const/auth_form_keys.dart';
 import 'package:job_pilot/features/authentication/view/auth_form_view.dart';
 import 'package:job_pilot/features/login/view/widget/login_image_illustration.dart';
 import 'package:job_pilot/features/login/view/widget/login_sign_up_btn.dart';
@@ -38,6 +41,8 @@ class _LoginViewState extends State<LoginView> {
   final FocusNode _passwordFocusNode = FocusNode();
   final GlobalKey _blueContainerKey = GlobalKey();
 
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
@@ -66,6 +71,31 @@ class _LoginViewState extends State<LoginView> {
       if (!_emailFocusNode.hasFocus && !_passwordFocusNode.hasFocus) {
         _hasScrolledToForm = false;
       }
+    }
+  }
+
+  void loginUser() {
+    if (_formKey.currentState?.validate() ?? false) {
+      final fields = _formKey.currentState!.fields;
+      final email = fields[AuthFormKeys.email]!.value as String;
+      final password = fields[AuthFormKeys.password]!.value as String;
+      _firebaseAuth
+          .signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+          .then((userCredential) {
+        // User logged in successfully
+        context.navigateTo(HomeRoute());
+      }).catchError((error) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: ${error.message}')),
+        );
+      });
+    } else {
+      HapticFeedback.lightImpact();
+      Feedback.forTap(context);
     }
   }
 

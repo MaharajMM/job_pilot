@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
 import 'package:job_pilot/const/resource.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
+import 'package:job_pilot/features/authentication/const/auth_form_keys.dart';
 import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:job_pilot/shared/widget/custom_text_formfield.dart';
 import 'package:job_pilot/shared/widget/dot_widget.dart';
@@ -37,7 +38,7 @@ class _AuthFormState extends State<AuthForm> {
         // Name Field
         if (widget.isSignUp)
           CustomTextFormField(
-            name: 'name',
+            name: AuthFormKeys.name,
             focusNode: widget.nameFocusNode,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
@@ -52,7 +53,7 @@ class _AuthFormState extends State<AuthForm> {
         20.heightBox,
         // Email Field
         CustomTextFormField(
-          name: 'Email',
+          name: AuthFormKeys.email,
           focusNode: widget.emailFocusNode,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
@@ -67,7 +68,7 @@ class _AuthFormState extends State<AuthForm> {
         ),
         20.heightBox,
         CustomTextFormField(
-          name: 'password',
+          name: AuthFormKeys.password,
           labelText: 'Password',
           focusNode: widget.passwordFocusNode,
           textInputAction: TextInputAction.next,
@@ -93,7 +94,7 @@ class _AuthFormState extends State<AuthForm> {
         if (widget.isSignUp) 20.heightBox else 0.heightBox,
         if (widget.isSignUp)
           CustomTextFormField(
-            name: 'confirm_password',
+            name: AuthFormKeys.confirmPassword,
             labelText: 'Confirm Password',
             isObscureText: _obscureText,
             prefixIcon: Icon(Icons.password, color: AppColors.grey800),

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "723919088120",
+    "project_id": "jobpilot-a143f",
+    "storage_bucket": "jobpilot-a143f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723919088120:android:f7aa3b9e6e528b47860e0d",
+        "android_client_info": {
+          "package_name": "com.app.job_pilot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723919088120-vo879srl5r4qsmcioni5uq2dhdnoj5nv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.job_pilot",
+            "certificate_hash": "a37a0fc72bbca85fdbfb0811fcee12335c4152b9"
+          }
+        },
+        {
+          "client_id": "723919088120-psrakugrn2ef9554qc22o8rg9rpmlj2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDihsf3Otljg4IHGhECJHutu7kn7PC_x7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723919088120-psrakugrn2ef9554qc22o8rg9rpmlj2c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "723919088120-mhhld19pe1cnciskv3gmeo5idrv6eki8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jobPilot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

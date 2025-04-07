@@ -1,11 +1,17 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_pilot/const/resource.dart';
+import 'package:job_pilot/core/router/router.gr.dart';
+import 'package:job_pilot/features/authentication/const/auth_form_keys.dart';
 import 'package:job_pilot/features/authentication/view/auth_form_view.dart';
 import 'package:job_pilot/features/login/view/widget/login_sign_up_btn.dart';
+import 'package:job_pilot/features/sign_up/controller/signup_pod.dart';
+import 'package:job_pilot/features/sign_up/view/widgets/sign_up_btn.dart';
+import 'package:job_pilot/shared/utility/utilities.dart';
 import 'package:job_pilot/shared/widget/animations/slide_animation_builder.dart';
-import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage()
@@ -18,14 +24,14 @@ class SignUpPage extends StatelessWidget {
   }
 }
 
-class SignUpView extends StatefulWidget {
+class SignUpView extends ConsumerStatefulWidget {
   const SignUpView({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _SignUpViewState extends ConsumerState<SignUpView> {
   final _signUpFormKey = GlobalKey<FormBuilderState>();
 
   final ScrollController _scrollController = ScrollController();
@@ -60,6 +66,41 @@ class _SignUpViewState extends State<SignUpView> {
     // Reset the flag when both fields lose focus
     if (!_nameFocusNode.hasFocus) {
       _hasScrolledToForm = false;
+    }
+  }
+
+  void signUpUser() {
+    if (_signUpFormKey.currentState?.validate() ?? false) {
+      final fields = _signUpFormKey.currentState!.fields;
+      final name = fields[AuthFormKeys.name]!.value as String;
+      final email = fields[AuthFormKeys.email]!.value as String;
+      final password = fields[AuthFormKeys.password]!.value as String;
+      final confirmPassword = fields[AuthFormKeys.confirmPassword]!.value as String;
+
+      ref.watch(signUpUserProvider.notifier).registerUser(
+            name: name,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            onRegisterUser: () {
+              Utilities.flushBarSuccessMessage(
+                message: 'Sign up successful',
+                context: context,
+              );
+              // Handle user registration
+              context.navigateTo(HomeRoute());
+            },
+            onRegisterError: (error) {
+              // Show error message
+              Utilities.flushBarErrorMessage(
+                message: 'Sign up failed: $error',
+                context: context,
+              );
+            },
+          );
+    } else {
+      HapticFeedback.lightImpact();
+      Feedback.forTap(context);
     }
   }
 
@@ -125,9 +166,8 @@ class _SignUpViewState extends State<SignUpView> {
                       Container(
                         key: _signUpBlueContainerKey,
                         child: AuthFormView(
-                          authBtn: PrimaryButton(
-                            labelText: 'Sign Up',
-                            onPressed: () {},
+                          authBtn: SignUpButton(
+                            onSubmit: () => signUpUser(),
                           ),
                           formKey: _signUpFormKey,
                           isSignUp: true,

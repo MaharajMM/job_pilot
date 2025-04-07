@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
-import 'package:job_pilot/core/router/router.gr.dart';
 import 'package:job_pilot/shared/widget/animations/slide_animation_builder.dart';
 import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:job_pilot/shared/widget/custom_text_formfield.dart';
@@ -99,7 +98,8 @@ class _ConfirmPasswordViewState extends State<ConfirmPasswordView> {
                   PrimaryButton(
                     labelText: 'Confirm',
                     onPressed: () {
-                      context.router.replace(HomeRoute());
+                      // context.router.replace(LoginRoute());
+                      context.maybePop();
                     },
                   ),
                 ],
