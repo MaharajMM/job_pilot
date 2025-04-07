@@ -71,7 +71,7 @@ class _AuthFormState extends State<AuthForm> {
           name: AuthFormKeys.password,
           labelText: 'Password',
           focusNode: widget.passwordFocusNode,
-          textInputAction: TextInputAction.next,
+          textInputAction: widget.isSignUp ? TextInputAction.next : TextInputAction.done,
           isObscureText: _obscureText,
           prefixIcon: Icon(Icons.lock, color: AppColors.grey800),
           suffixIcon: IconButton(

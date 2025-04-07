@@ -1,16 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:job_pilot/const/colors/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
 import 'package:job_pilot/features/authentication/const/auth_form_keys.dart';
 import 'package:job_pilot/features/authentication/view/auth_form_view.dart';
+import 'package:job_pilot/features/login/controller/login_pod.dart';
+import 'package:job_pilot/features/login/view/widget/login_btn.dart';
 import 'package:job_pilot/features/login/view/widget/login_image_illustration.dart';
 import 'package:job_pilot/features/login/view/widget/login_sign_up_btn.dart';
+import 'package:job_pilot/shared/utility/utilities.dart';
 import 'package:job_pilot/shared/widget/animations/slide_animation_builder.dart';
-import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 @RoutePage(
@@ -25,14 +26,14 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class LoginView extends StatefulWidget {
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _hasScrolledToForm = false;
 
@@ -40,8 +41,6 @@ class _LoginViewState extends State<LoginView> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final GlobalKey _blueContainerKey = GlobalKey();
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -79,20 +78,25 @@ class _LoginViewState extends State<LoginView> {
       final fields = _formKey.currentState!.fields;
       final email = fields[AuthFormKeys.email]!.value as String;
       final password = fields[AuthFormKeys.password]!.value as String;
-      _firebaseAuth
-          .signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      )
-          .then((userCredential) {
-        // User logged in successfully
-        context.navigateTo(HomeRoute());
-      }).catchError((error) {
-        // Handle error
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${error.message}')),
-        );
-      });
+      ref.watch(loginUserProvider.notifier).loginUser(
+            email: email,
+            password: password,
+            onLoginUser: () {
+              Utilities.flushBarSuccessMessage(
+                message: 'Login successful',
+                context: context,
+              );
+              // Handle user registration
+              context.navigateTo(HomeRoute());
+            },
+            onLoginError: (error) {
+              // Show error message
+              Utilities.flushBarErrorMessage(
+                message: 'Login failed: $error',
+                context: context,
+              );
+            },
+          );
     } else {
       HapticFeedback.lightImpact();
       Feedback.forTap(context);
@@ -157,11 +161,8 @@ class _LoginViewState extends State<LoginView> {
                       Container(
                         key: _blueContainerKey,
                         child: AuthFormView(
-                          authBtn: PrimaryButton(
-                            color: AppColors.kPrimaryColor,
-                            // fontColor: AppColors.kwhite,
-                            labelText: 'Login',
-                            onPressed: () => context.navigateTo(HomeRoute()),
+                          authBtn: Loginutton(
+                            onSubmit: loginUser,
                           ),
                           formKey: _formKey,
                           isSignUp: false,
