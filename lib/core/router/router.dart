@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:job_pilot/core/router/guards/login_guard.dart';
+import 'package:job_pilot/core/router/guards/splash_guard.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
 
 /// This class used for defined routes and paths na dother properties
@@ -10,6 +12,7 @@ class AppRouter extends RootStackRouter {
       page: NavBarRoute.page,
       path: '/nav',
       // initial: true,
+
       children: [
         RedirectRoute(
           path: '',
@@ -33,6 +36,9 @@ class AppRouter extends RootStackRouter {
       page: OnboardingRoute.page,
       path: '/',
       initial: true,
+      guards: [
+        SplashGuard(),
+      ],
     ),
     AutoRoute(
       page: IntroLoginRoute.page,
@@ -51,6 +57,9 @@ class AppRouter extends RootStackRouter {
       page: EmailOnboardRoute.page,
       path: '/email-onboard',
       // initial: true,
+      guards: [
+        LoginGuard(),
+      ],
     ),
     AutoRoute(
       page: ForgotPasswordBaseRoute.page,
