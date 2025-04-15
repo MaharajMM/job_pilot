@@ -1,17 +1,24 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:job_pilot/core/router/guards/email_onboard_guard.dart';
 import 'package:job_pilot/core/router/guards/login_guard.dart';
 import 'package:job_pilot/core/router/guards/splash_guard.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
+import 'package:job_pilot/data/service/email_template/email_template_db_service.dart';
 
 /// This class used for defined routes and paths na dother properties
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
+  final EmailTemplateDbService emailTemplateDbService;
+  AppRouter({
+    required this.emailTemplateDbService,
+  });
   @override
   late final List<AutoRoute> routes = [
     AutoRoute(
       page: NavBarRoute.page,
       path: '/nav',
       // initial: true,
+      guards: [LoginGuard()],
 
       children: [
         RedirectRoute(
@@ -58,7 +65,9 @@ class AppRouter extends RootStackRouter {
       path: '/email-onboard',
       // initial: true,
       guards: [
-        LoginGuard(),
+        EmailOnboardGuard(
+          emailTemplateDbService: emailTemplateDbService,
+        ),
       ],
     ),
     AutoRoute(
