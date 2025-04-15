@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -52,16 +54,19 @@ class _EmailTemplateTabState extends ConsumerState<EmailTemplateTab> {
     return Consumer(
       builder: (context, ref, child) {
         final savedEmailTemplate = ref.watch(emailTemplateDbProvider).getEmailTemplate();
+        final initialValue = <String, dynamic>{
+          if (savedEmailTemplate != null) ...{
+            ProfileKeys.subject: savedEmailTemplate.subject,
+            ProfileKeys.emailBody: savedEmailTemplate.body,
+            if (savedEmailTemplate.attachmentPath != null)
+              ProfileKeys.attachment: File(savedEmailTemplate.attachmentPath!),
+          }
+        };
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: FormBuilder(
             key: _emailTemplateFormKey,
-            initialValue: savedEmailTemplate != null
-                ? {
-                    ProfileKeys.subject: savedEmailTemplate.subject,
-                    ProfileKeys.emailBody: savedEmailTemplate.body,
-                  }
-                : {},
+            initialValue: initialValue,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,12 +105,10 @@ class _EmailTemplateTabState extends ConsumerState<EmailTemplateTab> {
                   },
                 ),
                 const SizedBox(height: 24),
-                SectionTitleCard(
-                  title: 'Default Attachment',
-                  icon: Icons.attach_file,
+                AttachmentSelectorWidget(
+                  name: ProfileKeys.attachment,
+                  formKey: _emailTemplateFormKey,
                 ),
-                const SizedBox(height: 16),
-                AttachmentSelectorWidget(),
                 const SizedBox(height: 32),
                 PrimaryButton(
                   labelText: 'Save Template',

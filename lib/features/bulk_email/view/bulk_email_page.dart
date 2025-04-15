@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,11 +124,16 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
             child: FormBuilder(
               key: _bulkEmailFormKey,
               initialValue: template != null
-                  ? {
-                      BulkEmailKeys.subject: template.subject,
-                      BulkEmailKeys.emailBody: template.body,
-                      BulkEmailKeys.attachment: template.attachmentPath,
-                    }
+                  ? template.attachmentPath != null
+                      ? {
+                          BulkEmailKeys.subject: template.subject,
+                          BulkEmailKeys.emailBody: template.body,
+                          BulkEmailKeys.attachment: File(template.attachmentPath!),
+                        }
+                      : {
+                          BulkEmailKeys.subject: template.subject,
+                          BulkEmailKeys.emailBody: template.body,
+                        }
                   : {},
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,9 +169,10 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  SectionTitleCard(title: 'Attachment'),
-                  const SizedBox(height: 12),
-                  AttachmentSelectorWidget(),
+                  AttachmentSelectorWidget(
+                    formKey: _bulkEmailFormKey,
+                    name: BulkEmailKeys.attachment,
+                  ),
                   const SizedBox(height: 24),
                   PrimaryButton(
                     isIcon: true,

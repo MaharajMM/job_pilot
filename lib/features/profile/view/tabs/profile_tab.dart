@@ -59,7 +59,10 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              ProfileUserHeader(),
+              ProfileUserHeader(
+                userName: userProfile?.name,
+                userEmail: userProfile?.primaryEmail,
+              ),
               const SizedBox(height: 24),
               TweenAnimation(
                 child: CustomCard(

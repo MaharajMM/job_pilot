@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:job_pilot/data/repository/email/email_repository_pod.dart';
+import 'package:job_pilot/data/models/email_template_model.dart';
+import 'package:job_pilot/data/models/user_model.dart';
+import 'package:job_pilot/data/service/email_template/email_template_db_service_pod.dart';
+import 'package:job_pilot/data/service/user_profile/user_profile_db_service_pod.dart';
 import 'package:job_pilot/features/email_onboard/controller/state/email_onboard_state.dart';
 
 class EmailOnboardFormNotifier extends AutoDisposeAsyncNotifier<EmailOnboardFormState> {
@@ -21,18 +24,33 @@ class EmailOnboardFormNotifier extends AutoDisposeAsyncNotifier<EmailOnboardForm
   }) async {
     state = const AsyncData(OnboardingEmailState());
     state = await AsyncValue.guard(() async {
-      final result = await ref.watch(emailRepoProvider).saveEmailDetails(
-            name: name,
-            email: emailId,
-            body: body,
-            subject: subject,
-            attachment: attachment,
-          );
+      try {
+        // Upload attachment if exists
+        // String? attachmentUrl;
+        // if (attachment != null) {
+        //   attachmentUrl = attachment.path;
+        // }
 
-      return result.when((isSaveddata) {
+        final userProfile = UserProfile(primaryEmail: emailId, name: name);
+
+        final updatedTemplate = EmailTemplateModel(
+          subject: subject.trim(),
+          body: body.trim(),
+          attachmentPath: attachment?.path,
+        );
+
+        await Future.wait(
+          [
+            ref.read(userProfileDbProvider).saveUserProfile(userProfile: userProfile),
+            ref.read(emailTemplateDbProvider).saveEmailTemplate(emailTemplate: updatedTemplate),
+          ],
+          eagerError: true,
+        );
         onSavedEmail();
         return const EmailOnboardFormSuccess();
-      }, (error) => EmailOnboardFormError(error.message));
+      } catch (error) {
+        return EmailOnboardFormError(error.toString());
+      }
     });
   }
 }
