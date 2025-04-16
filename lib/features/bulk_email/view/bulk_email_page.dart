@@ -36,13 +36,7 @@ class BulkEmailView extends ConsumerStatefulWidget {
 class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
   final _bulkEmailFormKey = GlobalKey<FormBuilderState>();
 
-  String? _attachmentName;
-
-  @override
-  void initState() {
-    super.initState();
-    // _loadDefaultTemplate();
-  }
+  // String? _attachmentName;
 
   @override
   void dispose() {
@@ -69,6 +63,7 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
       final recipientEmail = fields[BulkEmailKeys.recipientEmail]?.value as String;
       final subject = fields[BulkEmailKeys.subject]?.value as String;
       final emailBody = fields[BulkEmailKeys.emailBody]?.value as String;
+      final attachedFile = fields[BulkEmailKeys.attachment]?.value as dynamic;
       final recipients = _parseRecipients(recipientEmail);
       if (recipients.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -83,7 +78,7 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         builder: (context) => DraggableScrollableSheet(
-          initialChildSize: 0.7,
+          initialChildSize: 0.75,
           maxChildSize: 0.9,
           minChildSize: 0.5,
           expand: false,
@@ -92,9 +87,10 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
               recipients: recipients,
               subject: subject,
               body: emailBody,
-              attachmentName: _attachmentName,
+              attachmentFile: attachedFile,
+              attachmentName: attachedFile.path.split('/').last,
               scrollController: scrollController,
-              onSend: _sendEmail,
+              onSend: () async {},
             );
           },
         ),
@@ -102,11 +98,6 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
     } else {
       Utilities.flushBarErrorMessage(message: 'Please fill all the fields.', context: context);
     }
-  }
-
-  Future<void> _sendEmail() async {
-    final recipients = _parseRecipients('');
-    if (recipients.isEmpty) return;
   }
 
   @override
@@ -119,6 +110,7 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
       body: Consumer(
         builder: (context, ref, child) {
           final template = ref.watch(emailTemplateDbProvider).getEmailTemplate();
+
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: FormBuilder(

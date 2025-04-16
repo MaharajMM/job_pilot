@@ -47,7 +47,7 @@ class EmailTemplateDbService implements IEmailTemplateDbService {
     final storedEmails = box?.get(sentEmailsKey) as List<dynamic>?;
     if (storedEmails == null) return [];
 
-    return storedEmails.map((item) => SentEmail.fromMap(Map<String, dynamic>.from(item))).toList();
+    return storedEmails.map((item) => SentEmail.fromJson(item)).toList();
   }
 
   @override

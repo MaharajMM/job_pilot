@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:job_pilot/features/email_sender/auth_api.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
@@ -56,7 +57,13 @@ class _EmailSenderViewState extends State<EmailSenderView> {
       _isLoading = true;
     });
 
-    final smtpServer = gmail(emailController.text, appPasswordController.text);
+    final user = await GoogleAuthApi.signIn();
+    if (user == null) return;
+    final email = user.email;
+    final auth = await user.authentication;
+    final token = auth.accessToken!;
+
+    final smtpServer = gmailSaslXoauth2(email, token);
 
     List<String> emails = sendingEmailController.text
         .split(',')
