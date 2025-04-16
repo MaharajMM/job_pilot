@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:job_pilot/core/local_storage/app_storage_pod.dart';
+import 'package:job_pilot/data/service/email_template/email_template_db_service_pod.dart';
+import 'package:job_pilot/data/service/user_profile/user_profile_db_service_pod.dart';
 import 'package:job_pilot/features/bulk_email/view/widgets/section_title_card.dart';
 import 'package:job_pilot/shared/widget/custom_card.dart';
 
-class ProfileAppInfoSection extends StatelessWidget {
+class ProfileAppInfoSection extends ConsumerWidget {
   const ProfileAppInfoSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CustomCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +50,14 @@ class ProfileAppInfoSection extends StatelessWidget {
                       child: const Text('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () {
-                        // TODO: Implement data reset
+                      onPressed: () async {
+                        final appStorage = ref.watch(appStorageProvider);
+                        final box = appStorage.appBox;
+                        await box?.clear();
+                        // await ref.read(authProvider.notifier).logOut();
+                        await ref.read(emailTemplateDbProvider).deleteEmailTemplate();
+                        await ref.read(emailTemplateDbProvider).deleteSentEmails();
+                        await ref.read(userProfileDbProvider).deleteUserProfile();
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('All data has been reset')),

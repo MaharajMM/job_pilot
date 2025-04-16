@@ -2,12 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
-import 'package:job_pilot/const/resource.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
 import 'package:job_pilot/features/authentication/const/auth_form_keys.dart';
-import 'package:job_pilot/shared/widget/buttons/app_primary_btn.dart';
 import 'package:job_pilot/shared/widget/custom_text_formfield.dart';
 import 'package:job_pilot/shared/widget/dot_widget.dart';
+import 'package:job_pilot/shared/widget/login_with_google_btn.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AuthForm extends StatefulWidget {
@@ -150,17 +149,7 @@ class _AuthFormState extends State<AuthForm> {
           ],
         ),
         20.heightBox,
-        PrimaryButton(
-          isIcon: true,
-          icon: Image.asset(
-            R.ASSETS_IMAGES_GOOGLE_LOGO_PNG,
-            height: 30,
-          ),
-          color: AppColors.kPrimaryBgColor,
-          fontColor: AppColors.kPrimaryColor,
-          labelText: widget.isSignUp ? 'Sign up with Google' : 'Login with Google',
-          onPressed: () {},
-        ),
+        LoginWithGoogleBtn(isSignUp: widget.isSignUp),
       ],
     );
   }
