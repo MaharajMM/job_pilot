@@ -103,7 +103,6 @@ class _BulkEmailViewState extends ConsumerState<BulkEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text('Send Bulk Email'),
       ),

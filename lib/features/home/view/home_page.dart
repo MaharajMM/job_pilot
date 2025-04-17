@@ -43,12 +43,11 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -80,7 +79,6 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                 ],
               ),
             ),
-            10.heightBox,
             TabBar(
               controller: _tabController,
               indicator: BoxDecoration(

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:job_pilot/bootstrap.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
 
 class SplashGuard extends AutoRouteGuard {
@@ -8,6 +9,7 @@ class SplashGuard extends AutoRouteGuard {
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     // final isOnboarding = onboardingDbService.getOnboardingStatus();
+    talker.debug(user, 'aaaaaaaaa');
 
     if (user != null) {
       router.replaceAll([const EmailOnboardRoute()]);
@@ -19,7 +21,6 @@ class SplashGuard extends AutoRouteGuard {
     //   resolver.next(false);
     // }
     else {
-      router.replaceAll([const IntroLoginRoute()]);
       resolver.next(true);
     }
   }

@@ -58,10 +58,12 @@ class ProfileAppInfoSection extends ConsumerWidget {
                         await ref.read(emailTemplateDbProvider).deleteEmailTemplate();
                         await ref.read(emailTemplateDbProvider).deleteSentEmails();
                         await ref.read(userProfileDbProvider).deleteUserProfile();
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('All data has been reset')),
-                        );
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('All data has been reset')),
+                          );
+                        }
                       },
                       child: const Text('Reset', style: TextStyle(color: Colors.red)),
                     ),

@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:job_pilot/const/colors/app_colors.dart';
 import 'package:job_pilot/core/router/router.gr.dart';
-import 'package:job_pilot/core/router/router_pod.dart';
 import 'package:job_pilot/features/email_onboard/const/email_onboard_keys.dart';
 import 'package:job_pilot/features/email_onboard/controller/email_onboard_pod.dart';
 import 'package:job_pilot/features/email_onboard/view/widgets/save_btn.dart';
@@ -61,7 +60,7 @@ class _EmailOnboardViewState extends ConsumerState<EmailOnboardView> {
             attachment: addEmailFile,
             onSavedEmail: () {
               if (mContext.mounted) {
-                ref.read(autorouterProvider).replace(HomeRoute());
+                mContext.router.replaceAll([HomeRoute()]);
               }
             },
           );

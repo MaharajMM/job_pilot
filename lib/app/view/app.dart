@@ -2,10 +2,8 @@
 
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:job_pilot/const/colors/app_colors.dart';
 import 'package:job_pilot/core/router/auto_route_observer.dart';
 import 'package:job_pilot/core/router/router_pod.dart';
 import 'package:job_pilot/core/theme/app_theme.dart';
@@ -70,33 +68,11 @@ class _AppState extends ConsumerState<App> with GlobalHelper {
 
           /// Added annotate region by default to switch according to theme which
           /// customize the system ui veray style
-          child = AnnotatedRegion<SystemUiOverlayStyle>(
-            value: currentTheme == ThemeMode.light
-                ? SystemUiOverlayStyle.light.copyWith(
-                    statusBarColor: Colors.black,
-                    systemNavigationBarColor: Colors.black,
-                    systemNavigationBarDividerColor: Colors.black,
-                    systemNavigationBarIconBrightness: Brightness.dark,
-                  )
-                : currentTheme == ThemeMode.light
-                    ? SystemUiOverlayStyle.dark.copyWith(
-                        statusBarColor: Colors.transparent,
-                        systemNavigationBarColor: AppColors.grey200,
-                        systemNavigationBarDividerColor: AppColors.grey200,
-                        systemNavigationBarIconBrightness: Brightness.light,
-                      )
-                    : SystemUiOverlayStyle.dark.copyWith(
-                        statusBarColor: Colors.green,
-                        systemNavigationBarColor: AppColors.kPrimaryBgColor,
-                        systemNavigationBarDividerColor: AppColors.kPrimaryBgColor,
-                        systemNavigationBarIconBrightness: Brightness.light,
-                      ),
-            child: GestureDetector(
-              child: child,
-              onTap: () {
-                hideKeyboard();
-              },
-            ),
+          child = GestureDetector(
+            child: child,
+            onTap: () {
+              hideKeyboard();
+            },
           );
         } else {
           child = const SizedBox.shrink();

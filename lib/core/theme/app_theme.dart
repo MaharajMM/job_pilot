@@ -8,11 +8,11 @@ import 'package:job_pilot/const/colors/app_colors.dart';
 class Themes {
   static ThemeData get theme => FlexThemeData.light(
         colors: FlexSchemeColor.from(primary: AppColors.kPrimaryColor),
-        scaffoldBackground: AppColors.kwhite,
+        scaffoldBackground: Colors.grey[100],
         appBarBackground: AppColors.kSecondaryBgColor,
         applyElevationOverlayColor: true,
         appBarStyle: FlexAppBarStyle.background,
-        scheme: FlexScheme.brandBlue,
+        scheme: FlexScheme.yellowM3,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 20,
         appBarOpacity: 0.95,
@@ -45,8 +45,8 @@ class Themes {
       );
   static ThemeData get darkTheme => FlexThemeData.dark(
         colors: FlexSchemeColor.from(primary: AppColors.kPrimaryColor),
-        scaffoldBackground: AppColors.kBlack,
-        // appBarBackground: AppColors.kSecondaryBgColor,
+        scaffoldBackground: Colors.grey[100],
+        appBarBackground: AppColors.kSecondaryBgColor,
         scheme: FlexScheme.brandBlue,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 15,

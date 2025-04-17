@@ -38,10 +38,25 @@ class _ProfileViewState extends ConsumerState<ProfileView> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Profile & Settings'),
+        leading: IconButton(
+          onPressed: () {
+            final router = context.router;
+
+            try {
+              // Attempt to get the AutoTabsRouter
+              final tabsRouter = AutoTabsRouter.of(context);
+              // If successful, switch to the Home tab
+              tabsRouter.setActiveIndex(0);
+            } catch (e) {
+              // If AutoTabsRouter is not found, just pop the current route
+              router.maybePop();
+            }
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
       ),
       body: SafeArea(
         child: Column(

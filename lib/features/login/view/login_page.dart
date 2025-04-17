@@ -87,7 +87,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 context: context,
               );
               // Handle user registration
-              context.navigateTo(EmailOnboardRoute());
+              context.router.replaceAll([EmailOnboardRoute()]);
             },
             onLoginError: (error) {
               // Show error message
